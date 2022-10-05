@@ -24,7 +24,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      - uses: microsoft/variable-substitution@v1
+        with:
+          files: 'gallery.yml, images/*/image.yml' 
+        env:
+          subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
+          url: https://github.com/${{github.repository}}
+              
       - name: Login to Azure
         run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
